@@ -1,4 +1,4 @@
-package com.leffycruze.doodle.controller;
+package com.leffycruze.doodle.controller.api;
 
 import com.leffycruze.doodle.entity.User;
 import com.leffycruze.doodle.exception.UserNotFoundException;
@@ -49,7 +49,7 @@ public class UserController {
         User u = userService.findByUsername(username);
 
         if(u.getPassword().equals(password)){ // TODO hash password
-            u.setToken(getJWTToken(username));
+            u.setToken(getJWTToken(u));
             userService.save(u);
             return u;
         }
@@ -57,7 +57,7 @@ public class UserController {
         return null;
     }
 
-    private String getJWTToken(String username) {
+    private String getJWTToken(User user) {
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
@@ -65,13 +65,13 @@ public class UserController {
         String token = Jwts
                 .builder()
                 .setId("leffycruze.doodle")
-                .setSubject(username)
+                .setSubject(String.valueOf(user.getId()))
                 .claim("authorities",
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .setExpiration(new Date(System.currentTimeMillis() + Integer.MAX_VALUE)) //600000
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 
