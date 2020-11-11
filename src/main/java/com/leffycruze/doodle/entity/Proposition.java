@@ -37,6 +37,10 @@ public class Proposition {
         this.finish = LocalTime.of(Integer.parseInt(finishArr[0]), Integer.parseInt(finishArr[1]));
     }
 
+    public Proposition(){
+
+    }
+
     public LocalDate getDate() {
         return date;
     }

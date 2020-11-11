@@ -1,12 +1,17 @@
 package com.leffycruze.doodle.controller.api;
 
 import com.leffycruze.doodle.entity.User;
-import com.leffycruze.doodle.exception.UserNotFoundException;
+import com.leffycruze.doodle.exception.apirequestexception.AuthenticationFailureException;
+import com.leffycruze.doodle.exception.apirequestexception.BadParameterException;
+import com.leffycruze.doodle.exception.apirequestexception.MissingParametersException;
+import com.leffycruze.doodle.exception.apirequestexception.UserNotFoundException;
+import com.leffycruze.doodle.exception.apirequestexception.UsernameAlreadyTakenException;
 import com.leffycruze.doodle.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,43 +23,54 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public User register(@RequestBody Map<String, Object> request) {
+    public ResponseEntity<User> register(@RequestBody Map<String, Object> request) throws UsernameAlreadyTakenException, MissingParametersException {
         // TODO hash password
-        return userService.register(request);
+
+        if (!request.containsKey("username") || !request.containsKey("password")) {
+            throw new MissingParametersException("Username and password must be provided");
+        }
+
+        String username = (String) request.get("username");
+        String password = (String) request.get("password");
+
+        return new ResponseEntity<>(userService.register(username, password), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public User getUser(@PathVariable(name = "id") Integer id) throws UserNotFoundException {
-        Optional<User> u = userService.findById(id);
-        if (u.isEmpty())
-            throw new UserNotFoundException();
+    public User getUser(@PathVariable(name = "id") String id) throws UserNotFoundException, BadParameterException {
+        try {
+            Integer idInt = Integer.parseInt(id);
+            Optional<User> u = userService.findById(idInt);
+            if (u.isEmpty())
+                throw new UserNotFoundException("User=" + id + " not found");
 
-        return u.get();
+            return u.get();
+
+        } catch (NumberFormatException e) {
+            throw new BadParameterException("Invalid id");
+        }
     }
 
     @PostMapping("/login")
-    @ResponseStatus(code = HttpStatus.OK)
-    public User login(@RequestBody Map<String, Object> request) throws UserNotFoundException {
+    public User login(@RequestBody Map<String, Object> request) throws UserNotFoundException, AuthenticationFailureException {
         String username = (String) request.get("username");
         String password = (String) request.get("password");
         User u = userService.findByUsername(username);
 
-        if(u.getPassword().equals(password)){ // TODO hash password
+        if (u.getPassword().equals(password)) { // TODO hash password
             u.setToken(getJWTToken(u));
             userService.save(u);
             return u;
         }
 
-        return null;
+        throw new AuthenticationFailureException("Username or password incorrect");
     }
 
     private String getJWTToken(User user) {
@@ -75,6 +91,6 @@ public class UserController {
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 
-        return "Bearer " + token;
+        return token;
     }
 }

@@ -35,6 +35,10 @@ public class Doodle {
         this.organizer = organizer;
     }
 
+    public Doodle(){
+
+    }
+
     public Integer getId() {
         return id;
     }

@@ -29,7 +29,7 @@ public class DoodleApplication {
 			http.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/api/users/*").permitAll()
+					.antMatchers(HttpMethod.POST, "/api/user/*").permitAll()
 					.anyRequest().authenticated();
 		}
 	}
