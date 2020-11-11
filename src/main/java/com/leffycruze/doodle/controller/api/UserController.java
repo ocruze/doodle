@@ -73,12 +73,29 @@ public class UserController {
         throw new AuthenticationFailureException("Username or password incorrect");
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(name = "id") String id){
+        try {
+            Integer idInt = Integer.parseInt(id);
+            Optional<User> u = userService.findById(idInt);
+            if (u.isEmpty())
+                throw new UserNotFoundException("User=" + id + " not found");
+
+            userService.delete(u.get());
+
+            return ResponseEntity.noContent().build();
+
+        } catch (NumberFormatException e) {
+            throw new BadParameterException("Invalid id");
+        }
+    }
+
     private String getJWTToken(User user) {
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
 
-        String token = Jwts
+        return Jwts
                 .builder()
                 .setId("leffycruze.doodle")
                 .setSubject(String.valueOf(user.getId()))
@@ -90,7 +107,5 @@ public class UserController {
                 .setExpiration(new Date(System.currentTimeMillis() + Integer.MAX_VALUE)) //600000
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
-
-        return token;
     }
 }

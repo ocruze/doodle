@@ -43,4 +43,8 @@ public class UserService {
     public void save(User user) {
         repository.saveAndFlush(user);
     }
+
+    public void delete(User user){
+        repository.delete(user);
+    }
 }
