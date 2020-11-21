@@ -32,13 +32,12 @@ public class Proposition {
         String startArr[] = start.split(":"); // HH:MN
         String finishArr[] = finish.split(":"); // HH:MN
 
-        this.date = LocalDate.of(Integer.parseInt(dateArr[0]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[2]));
+        this.date = LocalDate.of(Integer.parseInt(dateArr[2]), Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]));
         this.start = LocalTime.of(Integer.parseInt(startArr[0]), Integer.parseInt(startArr[1]));
         this.finish = LocalTime.of(Integer.parseInt(finishArr[0]), Integer.parseInt(finishArr[1]));
     }
 
     public Proposition(){
-
     }
 
     public LocalDate getDate() {
