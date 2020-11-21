@@ -62,11 +62,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello world!";
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, Object> request) throws UserNotFoundException, AuthenticationFailureException {
         String username = (String) request.get("username");
