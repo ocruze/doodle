@@ -3,9 +3,9 @@
     <div class="login">
       <img src="@/assets/logo.svg" alt="logo" />
       <h4>Login to your account</h4>
-      <input type="username" placeholder="Username" />
-      <input type="password" placeholder="Password" />
-      <button>Login</button>
+      <input type="username" placeholder="Username" v-model="form.username" />
+      <input type="password" placeholder="Password" v-model="form.password" />
+      <button @click="submit">Login</button>
 
       <router-link to="/recover">Forgot your password?</router-link>
       <router-link to="/register"
@@ -16,13 +16,34 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Login",
   data() {
-    return {};
+    return {
+      form: {
+        username: "",
+        password: "",
+      },
+    };
   },
   computed: {},
-  methods: {},
+  methods: {
+    ...mapActions({
+      login: "auth/login",
+    }),
+
+    submit() {
+      this.login(this.form)
+        .then(() => {
+          this.$router.replace({ name: "Home" });
+        })
+        .catch(() => {
+          console.log("login failed");
+        });
+    },
+  },
 };
 </script>
 

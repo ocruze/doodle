@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -55,6 +57,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getMe(HttpServletRequest httpRequest) {
+        String username = (String) httpRequest.getAttribute("username");
+        User user = userService.findByUsername(username);
+
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, Object> request)
             throws UserNotFoundException, AuthenticationFailureException {
@@ -82,5 +92,10 @@ public class UserController {
         } catch (NumberFormatException e) {
             throw new BadParameterException("Invalid id");
         }
+    }
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello world";
     }
 }

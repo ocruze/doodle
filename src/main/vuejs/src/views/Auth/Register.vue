@@ -3,9 +3,9 @@
     <div class="register">
       <img src="@/assets/logo.svg" alt="logo" />
       <h4>Create an account</h4>
-      <input type="username" placeholder="Username" v-model="username" />
-      <input type="password" placeholder="Password" v-model="password" />
-      <button @click="register">Create</button>
+      <input type="username" placeholder="Username" v-model="form.username" />
+      <input type="password" placeholder="Password" v-model="form.password" />
+      <button @click="submit">Create</button>
 
       <router-link to="/login"
         >Already have an account? Login to your account here</router-link
@@ -15,17 +15,31 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Register",
   data() {
     return {
-      username: "",
-      password: "",
+      form: {
+        username: "",
+        password: "",
+      },
     };
   },
   methods: {
-    register() {
-      console.log(this);
+    ...mapActions({
+      register: "auth/register",
+    }),
+
+    submit() {
+      this.register(this.form)
+        .then(() => {
+          this.$router.replace({ name: "Home" });
+        })
+        .catch(() => {
+          console.log("register failed");
+        });
     },
   },
 };

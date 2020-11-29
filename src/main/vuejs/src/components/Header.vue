@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ authenticated }}
+    {{ user }}
     <b-navbar id="b-navbar" toggleable="lg">
       <b-navbar-brand>
         <router-link to="/"
@@ -27,7 +29,7 @@
 
         <b-navbar-nav class="ml-auto">
           <b-nav-item>
-            <a @click="logout"
+            <a @click.prevent="logout"
               >Logout <img src="@/assets/logout-icon.svg" alt="logout icon"
             /></a>
           </b-nav-item>
@@ -38,10 +40,38 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Header",
+  computed: {
+    ...mapGetters({
+      authenticated: "auth/authenticated",
+      user: "auth/user",
+    }),
+  },
+
   methods: {
-    logout() {},
+    ...mapActions({
+      logoutAction: "auth/logout",
+    }),
+
+    logout() {
+      this.logoutAction().then(() => {
+        this.$router.replace({
+          name: "Login",
+        });
+      });
+    },
+
+    makeToast(append = false) {
+      this.toastCount++;
+      this.$bvToast.toast(`This is toast number ${this.toastCount}`, {
+        title: "BootstrapVue Toast",
+        autoHideDelay: 5000,
+        appendToast: append,
+      });
+    },
   },
 };
 </script>
