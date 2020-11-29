@@ -28,9 +28,8 @@ export default {
       return dispatch("attempt", response.data.token);
     },
 
-    async register({ dispatch }, credentials) {
-      let response = await axios.post("/user/register", credentials);
-      return dispatch("attempt", response.data.token);
+    async register(_, credentials) {
+      return await axios.post("/user/register", credentials);
     },
 
     async attempt({ commit, state }, token) {

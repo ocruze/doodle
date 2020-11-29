@@ -6,6 +6,7 @@ import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
 import Recover from "../views/Auth/Recover.vue";
 import store from "@/store";
+import NotFound from "@/views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -14,14 +15,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if (!store.getters["auth/authenticated"]) {
-        return next({
-          name: "Login",
-        });
-      }
-      next();
-    },
   },
   {
     path: "/about",
@@ -43,12 +36,29 @@ const routes = [
     name: "Recover",
     component: Recover,
   },
+  {
+    path: "*",
+    name: "Not Found",
+    component: NotFound,
+  },
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+const openRoutes = ["Login", "Register"];
+
+router.beforeEach((to, from, next) => {
+  if (openRoutes.includes(to.name)) {
+    next();
+  } else if (store.getters["auth/authenticated"]) {
+    next();
+  } else {
+    next({ name: "Login" });
+  }
 });
 
 export default router;

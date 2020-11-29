@@ -27,6 +27,7 @@ export default {
       },
     };
   },
+  computed: {},
   methods: {
     ...mapActions({
       register: "auth/register",
@@ -35,7 +36,7 @@ export default {
     submit() {
       this.register(this.form)
         .then(() => {
-          this.$router.replace({ name: "Home" });
+          this.$router.replace({ name: "Login" });
         })
         .catch(() => {
           console.log("register failed");
