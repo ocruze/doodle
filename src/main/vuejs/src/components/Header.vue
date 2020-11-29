@@ -1,0 +1,84 @@
+<template>
+  <div>
+    <b-navbar id="b-navbar" toggleable="lg">
+      <b-navbar-brand>
+        <router-link to="/"
+          ><b-img
+            left
+            width="50px"
+            src="@/assets/logo.svg"
+            fluid
+            alt="logo"
+          ></b-img
+        ></router-link>
+      </b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item>
+            <router-link to="/">Home</router-link>
+          </b-nav-item>
+          <b-nav-item>
+            <router-link to="/about">About</router-link>
+          </b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item>
+            <a @click="logout"
+              >Logout <img src="@/assets/logout-icon.svg" alt="logout icon"
+            /></a>
+          </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Header",
+  methods: {
+    logout() {},
+  },
+};
+</script>
+
+<style lang="scss">
+#b-navbar {
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $super-dark-blue;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 5px 15%;
+
+  a {
+    font-weight: bold;
+    color: $dark-gray;
+    text-decoration: none;
+
+    &.router-link-exact-active {
+      color: $white;
+    }
+  }
+}
+
+.nav-1 {
+  display: flex;
+  align-items: center;
+
+  a {
+    margin-left: 30px;
+    margin-right: 20px;
+  }
+
+  b-img {
+    margin-right: 20px;
+  }
+}
+</style>

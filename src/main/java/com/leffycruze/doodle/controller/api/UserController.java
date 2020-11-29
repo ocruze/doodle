@@ -1,26 +1,18 @@
 package com.leffycruze.doodle.controller.api;
 
+import com.leffycruze.doodle.entity.User;
+import com.leffycruze.doodle.exception.apirequestexception.*;
 import com.leffycruze.doodle.security.DoodleUserDetailsService;
 import com.leffycruze.doodle.security.jwt.JwtProvider;
-import com.leffycruze.doodle.entity.User;
-import com.leffycruze.doodle.exception.apirequestexception.AuthenticationFailureException;
-import com.leffycruze.doodle.exception.apirequestexception.BadParameterException;
-import com.leffycruze.doodle.exception.apirequestexception.MissingParametersException;
-import com.leffycruze.doodle.exception.apirequestexception.UserNotFoundException;
-import com.leffycruze.doodle.exception.apirequestexception.UsernameAlreadyTakenException;
 import com.leffycruze.doodle.security.jwt.Token;
 import com.leffycruze.doodle.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -36,7 +28,8 @@ public class UserController {
     private JwtProvider jwtProvider;
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody Map<String, Object> request) throws UsernameAlreadyTakenException, MissingParametersException {
+    public ResponseEntity<User> register(@RequestBody Map<String, Object> request)
+            throws UsernameAlreadyTakenException, MissingParametersException {
         if (!request.containsKey("username") || !request.containsKey("password")) {
             throw new MissingParametersException("Username and password must be provided");
         }
@@ -63,7 +56,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, Object> request) throws UserNotFoundException, AuthenticationFailureException {
+    public ResponseEntity<?> login(@RequestBody Map<String, Object> request)
+            throws UserNotFoundException, AuthenticationFailureException {
         String username = (String) request.get("username");
         String password = (String) request.get("password");
 

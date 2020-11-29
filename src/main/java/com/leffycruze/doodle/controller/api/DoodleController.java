@@ -7,14 +7,12 @@ import com.leffycruze.doodle.service.DoodleService;
 import com.leffycruze.doodle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/doodle")
@@ -36,8 +34,9 @@ public class DoodleController {
         User user = userService.findByUsername(username);
 
         ArrayList<Proposition> propositions = new ArrayList<>();
-        for (Map<String, Object> prop: props){
-            propositions.add(new Proposition((String) prop.get("date"),(String)  prop.get("start"),(String)  prop.get("finish")));
+        for (Map<String, Object> prop : props) {
+            propositions.add(new Proposition((String) prop.get("date"), (String) prop.get("start"),
+                    (String) prop.get("finish")));
         }
 
         return doodleService.create(title, place, propositions, user);

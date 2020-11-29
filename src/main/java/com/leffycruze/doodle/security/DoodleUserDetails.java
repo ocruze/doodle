@@ -20,8 +20,7 @@ public class DoodleUserDetails implements UserDetails {
         c.username = user.getUsername();
         c.password = user.getPassword();
         String roles = "USER"; // everyone is user, no special roles or authorities
-        c.grantedAuthorities = Arrays.stream(roles.split(","))
-                .map(SimpleGrantedAuthority::new)
+        c.grantedAuthorities = Arrays.stream(roles.split(",")).map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         return c;
     }

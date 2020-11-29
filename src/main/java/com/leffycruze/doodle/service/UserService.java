@@ -40,13 +40,13 @@ public class UserService {
         Optional<User> u = repository.findByUsername(username);
 
         if (u.isEmpty()) {
-            throw new UserNotFoundException("User="+ username + " not found");
+            throw new UserNotFoundException("User=" + username + " not found");
         }
         return repository.getOne(u.get().getId());
     }
 
-    public User findByLoginAndPassword(String username, String password) throws AuthenticationFailureException{
-        User user =findByUsername(username);
+    public User findByLoginAndPassword(String username, String password) throws AuthenticationFailureException {
+        User user = findByUsername(username);
         if (user != null) {
             if (passwordEncoder.matches(password, user.getPassword())) {
                 return user;
@@ -59,7 +59,7 @@ public class UserService {
         repository.saveAndFlush(user);
     }
 
-    public void delete(User user){
+    public void delete(User user) {
         repository.delete(user);
     }
 }

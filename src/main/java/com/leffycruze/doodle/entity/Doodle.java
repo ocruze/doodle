@@ -1,6 +1,5 @@
 package com.leffycruze.doodle.entity;
 
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class Doodle {
         this.organizer = organizer;
     }
 
-    public Doodle(){
+    public Doodle() {
 
     }
 

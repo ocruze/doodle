@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/prop")
@@ -27,7 +25,8 @@ public class PropositionController {
     private PropositionService propositionService;
 
     @GetMapping("/{id}/vote/{going}") // yes, no
-    public ResponseEntity<?> vote(@PathVariable(name = "id") String idPropSt, @PathVariable(name = "going") String going, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> vote(@PathVariable(name = "id") String idPropSt,
+            @PathVariable(name = "going") String going, HttpServletRequest httpRequest) {
         String username = (String) httpRequest.getAttribute("username");
         User user = userService.findByUsername(username);
         Integer idProp = Integer.parseInt(idPropSt);
@@ -37,17 +36,16 @@ public class PropositionController {
         } else if (going.equals("no")) {
             propositionService.voteNotGoing(idProp, user);
 
-        } else if(going.equals("maybe")){
+        } else if (going.equals("maybe")) {
             propositionService.voteMaybe(idProp, user);
-        }
-        else {
+        } else {
             throw new BadParameterException("Only [yes, no, maybe] values are accepted");
         }
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/vote")
-    public ResponseEntity<?> voteDelete(@PathVariable(name = "id") String idPropSt, HttpServletRequest httpRequest){
+    public ResponseEntity<?> voteDelete(@PathVariable(name = "id") String idPropSt, HttpServletRequest httpRequest) {
         String username = (String) httpRequest.getAttribute("username");
         User user = userService.findByUsername(username);
         Integer idProp = Integer.parseInt(idPropSt);

@@ -18,10 +18,7 @@ public class JwtProvider {
 
     public String generateToken(String username) {
         Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return Jwts.builder()
-                .setSubject(username)
-                .setExpiration(date)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+        return Jwts.builder().setSubject(username).setExpiration(date).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 

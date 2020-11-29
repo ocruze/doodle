@@ -12,20 +12,22 @@ import java.time.ZonedDateTime;
 public class ApiExceptionHandler {
 
     private ResponseEntity<Object> handleException(ApiRequestException e, HttpStatus httpStatus) {
-        return new ResponseEntity<>(new ErrorResponse(e.getMessage(), httpStatus, httpStatus.value(), ZonedDateTime.now()), httpStatus);
+        return new ResponseEntity<>(
+                new ErrorResponse(e.getMessage(), httpStatus, httpStatus.value(), ZonedDateTime.now()), httpStatus);
     }
 
-    @ExceptionHandler(value = {UsernameAlreadyTakenException.class, MissingParametersException.class, BadParameterException.class})
+    @ExceptionHandler(value = { UsernameAlreadyTakenException.class, MissingParametersException.class,
+            BadParameterException.class })
     public ResponseEntity<Object> handleExceptionBadRequest(ApiRequestException e) {
         return handleException(e, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = {UserNotFoundException.class})
+    @ExceptionHandler(value = { UserNotFoundException.class })
     public ResponseEntity<Object> handleExceptionNotFound(ApiRequestException e) {
         return handleException(e, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = {AuthenticationFailureException.class})
+    @ExceptionHandler(value = { AuthenticationFailureException.class })
     public ResponseEntity<Object> handleExceptionUnauthorized(ApiRequestException e) {
         return handleException(e, HttpStatus.FORBIDDEN);
     }
