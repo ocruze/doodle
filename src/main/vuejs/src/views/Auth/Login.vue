@@ -3,9 +3,13 @@
     <div class="login">
       <img src="@/assets/logo.svg" alt="logo" />
       <h4>Login to your account</h4>
-      <input type="username" placeholder="Username" v-model="form.username" />
-      <input type="password" placeholder="Password" v-model="form.password" />
-      <button @click="submit">Login</button>
+      <form>
+        <input type="username" placeholder="Username" v-model="form.username" />
+        <input type="password" placeholder="Password" v-model="form.password" />
+        <button type="submit" @submit.prevent="submit" @click.prevent="submit">
+          Login
+        </button>
+      </form>
 
       <router-link to="/recover">Forgot your password?</router-link>
       <router-link to="/register"
@@ -37,7 +41,7 @@ export default {
     submit() {
       this.login(this.form)
         .then(() => {
-          this.$router.replace({ name: "Home" });
+          this.$router.replace({ name: "Dashboard" });
         })
         .catch(() => {
           console.log("login failed");

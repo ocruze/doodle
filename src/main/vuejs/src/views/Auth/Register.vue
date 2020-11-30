@@ -3,9 +3,13 @@
     <div class="register">
       <img src="@/assets/logo.svg" alt="logo" />
       <h4>Create an account</h4>
-      <input type="username" placeholder="Username" v-model="form.username" />
-      <input type="password" placeholder="Password" v-model="form.password" />
-      <button @click="submit">Create</button>
+      <form>
+        <input type="username" placeholder="Username" v-model="form.username" />
+        <input type="password" placeholder="Password" v-model="form.password" />
+        <button type="submit" @submit.prevent="submit" @click.prevent="submit">
+          Create
+        </button>
+      </form>
 
       <router-link to="/login"
         >Already have an account? Login to your account here</router-link

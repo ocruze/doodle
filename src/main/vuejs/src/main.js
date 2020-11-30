@@ -7,6 +7,19 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 
+/* font awesome */
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faSignInAlt,
+  faSignOutAlt,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(faSignInAlt, faSignOutAlt, faUserPlus);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
+/* font awesome */
+
 require("@/store/subscriber");
 
 Vue.config.productionTip = false;

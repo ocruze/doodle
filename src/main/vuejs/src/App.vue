@@ -15,6 +15,18 @@ h1 {
   @include heading-1;
 }
 
+h2 {
+  @include heading-2;
+}
+
+h3 {
+  @include heading-3;
+}
+
+h4 {
+  @include heading-4;
+}
+
 p {
   @include large-text-bold($green);
 }

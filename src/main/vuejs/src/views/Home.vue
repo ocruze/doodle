@@ -1,6 +1,18 @@
 <template>
   <div class="home">
     <Header />
+
+    <b-container fluid="sm">
+      <h1 class="mt-3">Doodle</h1>
+      <h4>Plan your best friend's surprise birthday party 🎂</h4>
+      <h4>or important business meetings easily</h4>
+      <b-img
+        src="@/assets/Hero.svg"
+        fluid
+        width="1000px"
+        alt="hero image"
+      ></b-img>
+    </b-container>
   </div>
 </template>
 
@@ -11,7 +23,10 @@ import Header from "@/components/Header.vue";
 export default {
   name: "Home",
   components: {
-    Header
-  }
+    Header,
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

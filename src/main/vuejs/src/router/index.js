@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Dashboard from "../views/Dashboard.vue";
 import About from "../views/About.vue";
 import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
@@ -15,6 +16,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
   },
   {
     path: "/about",
@@ -49,9 +55,18 @@ const router = new VueRouter({
   routes,
 });
 
-const openRoutes = ["Login", "Register"];
+const openRoutes = ["Home", "Login", "Register", "Recover"];
+const authRoutes = ["Login", "Register", "Recover"];
 
 router.beforeEach((to, from, next) => {
+  if (authRoutes.includes(to.name)) {
+    if (store.getters["auth/authenticated"]) {
+      next({ name: "Dashboard" });
+    } else {
+      next();
+    }
+  }
+
   if (openRoutes.includes(to.name)) {
     next();
   } else if (store.getters["auth/authenticated"]) {

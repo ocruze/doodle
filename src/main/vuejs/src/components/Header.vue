@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ authenticated }}
-    {{ user }}
     <b-navbar id="b-navbar" toggleable="lg">
       <b-navbar-brand>
         <router-link to="/"
@@ -20,18 +18,31 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item>
-            <router-link to="/">Home</router-link>
+            <router-link to="/dashboard">Dashboard</router-link>
           </b-nav-item>
           <b-nav-item>
             <router-link to="/about">About</router-link>
           </b-nav-item>
         </b-navbar-nav>
 
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="authenticated">
           <b-nav-item>
             <a @click.prevent="logout"
-              >Logout <img src="@/assets/logout-icon.svg" alt="logout icon"
-            /></a>
+              >Logout <font-awesome-icon icon="sign-out-alt" />
+            </a>
+          </b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-else>
+          <b-nav-item>
+            <router-link to="/login"
+              >Login <font-awesome-icon icon="sign-in-alt"
+            /></router-link>
+          </b-nav-item>
+          <b-nav-item>
+            <router-link to="/register"
+              >Register <font-awesome-icon icon="user-plus"
+            /></router-link>
           </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -58,9 +69,11 @@ export default {
 
     logout() {
       this.logoutAction().then(() => {
-        this.$router.replace({
-          name: "Login",
-        });
+        if (this.$route.name != "Home") {
+          this.$router.replace({
+            name: "Home",
+          });
+        }
       });
     },
 
@@ -78,14 +91,13 @@ export default {
 
 <style lang="scss">
 #b-navbar {
-  padding: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: $super-dark-blue;
   box-sizing: border-box;
   width: 100%;
-  padding: 5px 15%;
+  padding: 5px 12%;
 
   a {
     font-weight: bold;
