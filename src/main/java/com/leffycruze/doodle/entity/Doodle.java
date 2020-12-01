@@ -24,7 +24,7 @@ public class Doodle {
     @CollectionTable
     private List<Proposition> propositions = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class)
     private User organizer;
 
     public Doodle(String title, String place, List<Proposition> propositions, User organizer) {

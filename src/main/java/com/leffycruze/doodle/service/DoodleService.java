@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -17,8 +18,21 @@ public class DoodleService {
     @Autowired
     private DoodleRepository repository;
 
+    public Optional<Doodle> findById(Integer idDoodle) {
+        return repository.findById(idDoodle);
+    }
+
     public Doodle create(String title, String place, List<Proposition> propositions, User organizer) {
         Doodle doodle = new Doodle(title, place, propositions, organizer);
         return repository.save(doodle);
     }
+
+    public List<Doodle> getDoodlesByOrganizer(User organizer) {
+        return repository.findAllByOrganizer(organizer).get();
+    }
+
+    public void delete(Doodle doodle) {
+        repository.delete(doodle);
+    }
+
 }

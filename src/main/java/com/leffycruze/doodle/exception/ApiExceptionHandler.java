@@ -16,18 +16,18 @@ public class ApiExceptionHandler {
                 new ErrorResponse(e.getMessage(), httpStatus, httpStatus.value(), ZonedDateTime.now()), httpStatus);
     }
 
-    @ExceptionHandler(value = { UsernameAlreadyTakenException.class, MissingParametersException.class,
-            BadParameterException.class })
+    @ExceptionHandler(value = {UsernameAlreadyTakenException.class, MissingParametersException.class,
+            BadParameterException.class})
     public ResponseEntity<Object> handleExceptionBadRequest(ApiRequestException e) {
         return handleException(e, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = { UserNotFoundException.class })
+    @ExceptionHandler(value = {UserNotFoundException.class, ResourceNotFoundException.class})
     public ResponseEntity<Object> handleExceptionNotFound(ApiRequestException e) {
         return handleException(e, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(value = { AuthenticationFailureException.class })
+    @ExceptionHandler(value = {AuthenticationFailureException.class, ResourceForbiddenException.class})
     public ResponseEntity<Object> handleExceptionUnauthorized(ApiRequestException e) {
         return handleException(e, HttpStatus.FORBIDDEN);
     }
