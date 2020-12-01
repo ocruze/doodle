@@ -28,7 +28,7 @@ h4 {
 }
 
 p {
-  @include large-text-bold($green);
+  @include medium-text();
 }
 
 #app {

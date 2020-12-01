@@ -6,14 +6,21 @@
       <form>
         <input type="username" placeholder="Username" v-model="form.username" />
         <input type="password" placeholder="Password" v-model="form.password" />
-        <button type="submit" @submit.prevent="submit" @click.prevent="submit">
+        <b-button
+          type="submit"
+          @submit.prevent="submit"
+          @click.prevent="submit"
+        >
           Create
-        </button>
+        </b-button>
       </form>
 
       <router-link to="/login"
         >Already have an account? Login to your account here</router-link
       >
+      <router-link to="/"
+        >Go back to home <font-awesome-icon icon="home"
+      /></router-link>
     </div>
   </div>
 </template>
@@ -40,10 +47,17 @@ export default {
     submit() {
       this.register(this.form)
         .then(() => {
+          this.$toast.success("Registration successful");
           this.$router.replace({ name: "Login" });
         })
-        .catch(() => {
-          console.log("register failed");
+        .catch((error) => {
+          if (error.response) {
+            this.$toast.error(error.response.data.message);
+          } else {
+            this.$toast.error(
+              "Oops, something went wrong while connecting to server"
+            );
+          }
         });
     },
   },

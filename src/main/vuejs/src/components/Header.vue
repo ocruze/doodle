@@ -68,22 +68,17 @@ export default {
     }),
 
     logout() {
-      this.logoutAction().then(() => {
-        if (this.$route.name != "Home") {
-          this.$router.replace({
-            name: "Home",
-          });
-        }
-      });
-    },
-
-    makeToast(append = false) {
-      this.toastCount++;
-      this.$bvToast.toast(`This is toast number ${this.toastCount}`, {
-        title: "BootstrapVue Toast",
-        autoHideDelay: 5000,
-        appendToast: append,
-      });
+      this.logoutAction()
+        .then(() => {
+          if (this.$route.name != "Home") {
+            this.$router.replace({
+              name: "Home",
+            });
+          }
+        })
+        .then(() => {
+          this.$toast.success("Logout successful");
+        });
     },
   },
 };
@@ -94,15 +89,16 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $super-dark-blue;
+  background: $transparent;
   box-sizing: border-box;
   width: 100%;
-  padding: 5px 12%;
+  padding: 0px 12%;
 
   a {
     font-weight: bold;
     color: $dark-gray;
     text-decoration: none;
+    font-size: 1.1rem;
 
     &.router-link-exact-active {
       color: $white;

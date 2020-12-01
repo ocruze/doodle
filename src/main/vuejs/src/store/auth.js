@@ -24,8 +24,9 @@ export default {
   },
   actions: {
     async login({ dispatch }, credentials) {
-      let response = await axios.post("/user/login", credentials);
-      return dispatch("attempt", response.data.token);
+      return await axios.post("/user/login", credentials).then((response) => {
+        return dispatch("attempt", response.data.token);
+      });
     },
 
     async register(_, credentials) {
@@ -44,11 +45,13 @@ export default {
       commit("SET_TOKEN", token);
 
       try {
-        let response = await axios.get("/user/me");
-        commit("SET_USER", response.data);
+        return await axios.get("/user/me").then((response) => {
+          return commit("SET_USER", response.data);
+        });
       } catch (e) {
         commit("SET_TOKEN", null);
         commit("SET_USER", null);
+        throw e;
       }
     },
 

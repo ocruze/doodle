@@ -2,27 +2,18 @@ import "@babel/polyfill";
 import "mutationobserver-shim";
 import Vue from "vue";
 import "./plugins/bootstrap-vue";
+import "./plugins/fontawesome-vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
-
-/* font awesome */
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faSignInAlt,
-  faSignOutAlt,
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-library.add(faSignInAlt, faSignOutAlt, faUserPlus);
-Vue.component("font-awesome-icon", FontAwesomeIcon);
-/* font awesome */
+import VueToast from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
 
 require("@/store/subscriber");
 
 Vue.config.productionTip = false;
+Vue.use(VueToast);
 
 axios.defaults.baseURL = "http://localhost:8080/api";
 
