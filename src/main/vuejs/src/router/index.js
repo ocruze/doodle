@@ -5,6 +5,7 @@ import Dashboard from "../views/Dashboard.vue";
 import About from "../views/About.vue";
 import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
+import NewDoodle from "../views/NewDoodle.vue";
 import Recover from "../views/Auth/Recover.vue";
 import store from "@/store";
 import NotFound from "@/views/NotFound.vue";
@@ -41,6 +42,11 @@ const routes = [
     path: "/recover",
     name: "Recover",
     component: Recover,
+  },
+  {
+    path: "/new_doodle",
+    name: "NewDoodle",
+    component: NewDoodle,
   },
   {
     path: "*",

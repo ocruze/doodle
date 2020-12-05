@@ -27,6 +27,11 @@
 
         <b-navbar-nav class="ml-auto" v-if="authenticated">
           <b-nav-item>
+            <router-link to="/new_doodle">
+              New Doodle
+            </router-link>
+          </b-nav-item>
+          <b-nav-item>
             <a @click.prevent="logout"
               >Logout <font-awesome-icon icon="sign-out-alt" />
             </a>

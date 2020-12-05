@@ -37,6 +37,9 @@ public class DoodleController {
         List<Map<String, Object>> props = (List<Map<String, Object>>) request.get("propositions");
         User user = userService.findByUsername(username);
 
+        if (props == null) {
+            throw new BadParameterException("Please provide at least one proposition");
+        }
         ArrayList<Proposition> propositions = new ArrayList<>();
         for (Map<String, Object> prop : props) {
             propositions.add(new Proposition((String) prop.get("date"), (String) prop.get("start"),

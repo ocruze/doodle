@@ -15,7 +15,7 @@ require("@/store/subscriber");
 Vue.config.productionTip = false;
 Vue.use(VueToast);
 
-axios.defaults.baseURL = "http://localhost:8080/api";
+axios.defaults.baseURL = "http://localhost:7070/api";
 
 store.dispatch("auth/attempt", localStorage.getItem("token")).then(() => {
   new Vue({
