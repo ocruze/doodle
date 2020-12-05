@@ -14,6 +14,11 @@
     <div class="mt-2">Value: '{{ startTime }}'</div>
         <b-form-timepicker v-model="endTime" locale="en"></b-form-timepicker>
     <div class="mt-2">Value: '{{ endTime }}'</div>
+     <b-button
+          @click.prevent="addProposition"
+        >
+          Add proposition
+        </b-button>
         <b-button
           type="submit"
           @submit.prevent="submit"
@@ -47,7 +52,6 @@ export default {
   computed: {},
   methods: {
     submit() {
-        this.form.propositions.push({date: this.dateValue, start: this.startTime, finish: this.endTime})
         console.log(this.form);
         axios.post(
             '/doodle/create',
@@ -65,6 +69,9 @@ export default {
           }
         });
     },
+    addProposition() {
+        this.form.propositions.push({date: this.dateValue, start: this.startTime, finish: this.endTime})
+    }
   },
 };
 
