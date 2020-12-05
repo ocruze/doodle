@@ -1,32 +1,37 @@
 <template>
   <div>
     <Header></Header>
-    <h1>This page is used to create a new doodle</h1>
+    <h3>Create a new doodle</h3>
     <form>
-        <input type="text" placeholder="Title" v-model="form.title" />
-        <input type="text" placeholder="Place" v-model="form.place" />
+      <input type="text" placeholder="Title" v-model="form.title" />
+      <input type="text" placeholder="Place" v-model="form.place" />
+
+      <b-modal
+        id="modal-1"
+        title="Add new date proposition"
+        @ok="addProposition"
+      >
         <div>
-            <label for="example-datepicker">Choose a date</label>
-            <b-form-datepicker id="example-datepicker" v-model="dateValue" class="mb-2" locale="fr"></b-form-datepicker>
-            <p>Value: '{{ dateValue }}'</p>
+          <label for="example-datepicker">Choose a date</label>
+          <b-form-datepicker
+            id="example-datepicker"
+            v-model="dateValue"
+            class="mb-2"
+            locale="fr"
+          ></b-form-datepicker>
+          <p>Value: '{{ dateValue }}'</p>
         </div>
         <b-form-timepicker v-model="startTime" locale="en"></b-form-timepicker>
-    <div class="mt-2">Value: '{{ startTime }}'</div>
+        <div class="mt-2">Value: '{{ startTime }}'</div>
         <b-form-timepicker v-model="endTime" locale="en"></b-form-timepicker>
-    <div class="mt-2">Value: '{{ endTime }}'</div>
-     <b-button
-          @click.prevent="addProposition"
-        >
-          Add proposition
-        </b-button>
-        <b-button
-          type="submit"
-          @submit.prevent="submit"
-          @click.prevent="submit"
-        >
-          Save
-        </b-button>
-      </form>
+        <div class="mt-2">Value: '{{ endTime }}'</div>
+      </b-modal>
+
+      <b-button v-b-modal.modal-1> Add proposition </b-button>
+      <b-button type="submit" @submit.prevent="submit" @click.prevent="submit">
+        Save
+      </b-button>
+    </form>
   </div>
 </template>
 
@@ -35,8 +40,8 @@ import Header from "@/components/Header.vue";
 import axios from "axios";
 
 export default {
-    components: { Header },
-    name: "Doodle",
+  components: { Header },
+  name: "Doodle",
   data() {
     return {
       form: {
@@ -45,18 +50,17 @@ export default {
         propositions: [],
       },
       dateValue: "",
-      startTime: "", 
-      endTime: "", 
+      startTime: "",
+      endTime: "",
     };
   },
   computed: {},
   methods: {
     submit() {
-        console.log(this.form);
-        axios.post(
-            '/doodle/create',
-            this.form
-        ).then(() => {
+      console.log(this.form);
+      axios
+        .post("/doodle/create", this.form)
+        .then(() => {
           this.$toast.success("Creation successful!");
         })
         .catch((error) => {
@@ -70,9 +74,12 @@ export default {
         });
     },
     addProposition() {
-        this.form.propositions.push({date: this.dateValue, start: this.startTime, finish: this.endTime})
-    }
+      this.form.propositions.push({
+        date: this.dateValue,
+        start: this.startTime,
+        finish: this.endTime,
+      });
+    },
   },
 };
-
 </script>
