@@ -7,6 +7,7 @@ import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
 import NewDoodle from "../views/NewDoodle.vue";
 import Recover from "../views/Auth/Recover.vue";
+import DoodlePage from "../views/DoodlePage.vue";
 import store from "@/store";
 import NotFound from "@/views/NotFound.vue";
 
@@ -44,13 +45,18 @@ const routes = [
     component: Recover,
   },
   {
-    path: "/new_doodle",
+    path: "/new-doodle",
     name: "NewDoodle",
     component: NewDoodle,
   },
   {
+    path: "/doodle/:idDoodle",
+    name: "DoodlePage",
+    component: DoodlePage,
+  },
+  {
     path: "*",
-    name: "Not Found",
+    name: "NotFound",
     component: NotFound,
   },
 ];
@@ -61,7 +67,14 @@ const router = new VueRouter({
   routes,
 });
 
-const openRoutes = ["Home", "Login", "Register", "Recover"];
+const openRoutes = [
+  "Home",
+  "Login",
+  "Register",
+  "Recover",
+  "About",
+  "NotFound",
+];
 const authRoutes = ["Login", "Register", "Recover"];
 
 router.beforeEach((to, from, next) => {
@@ -78,6 +91,7 @@ router.beforeEach((to, from, next) => {
   } else if (store.getters["auth/authenticated"]) {
     next();
   } else {
+    Vue.$toast.info("Please log in to continue");
     next({ name: "Login" });
   }
 });

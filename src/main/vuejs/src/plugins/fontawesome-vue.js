@@ -6,8 +6,9 @@ import {
   faSignOutAlt,
   faUserPlus,
   faHome,
+  faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faSignInAlt, faSignOutAlt, faUserPlus, faHome);
+library.add(faSignInAlt, faSignOutAlt, faUserPlus, faHome, faMapMarkerAlt);
 Vue.component("font-awesome-icon", FontAwesomeIcon);

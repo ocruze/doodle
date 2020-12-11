@@ -3,8 +3,9 @@ package com.leffycruze.doodle.controller.api;
 import com.leffycruze.doodle.entity.Doodle;
 import com.leffycruze.doodle.entity.Proposition;
 import com.leffycruze.doodle.entity.User;
-import com.leffycruze.doodle.exception.apirequestexception.BadParameterException;
-import com.leffycruze.doodle.exception.apirequestexception.ResourceForbiddenException;
+import com.leffycruze.doodle.exception.apirequestexception.BadRequestException;
+import com.leffycruze.doodle.exception.apirequestexception.ForbiddenException;
+import com.leffycruze.doodle.exception.apirequestexception.NotFoundException;
 import com.leffycruze.doodle.service.DoodleService;
 import com.leffycruze.doodle.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class DoodleController {
         User user = userService.findByUsername(username);
 
         if (props == null) {
-            throw new BadParameterException("Please provide at least one proposition");
+            throw new BadRequestException("Please provide at least one proposition");
         }
         ArrayList<Proposition> propositions = new ArrayList<>();
         for (Map<String, Object> prop : props) {
@@ -55,12 +56,12 @@ public class DoodleController {
             Integer idInt = Integer.parseInt(idDoodle);
             Optional<Doodle> doodle = doodleService.findById(idInt);
             if (doodle.isEmpty())
-                throw new ResourceForbiddenException("Doodle=" + idDoodle + " not found");
+                throw new NotFoundException("Doodle=" + idDoodle + " not found");
 
             return ResponseEntity.ok().body(doodle.get());
 
         } catch (NumberFormatException e) {
-            throw new BadParameterException("Invalid id");
+            throw new BadRequestException("Invalid id");
         }
     }
 
@@ -80,12 +81,12 @@ public class DoodleController {
 
         Optional<Doodle> doodle = doodleService.findById(Integer.parseInt(idDoodle));
         if (doodle.isEmpty()) {
-            throw new BadParameterException(String.format("idDoodle=%s does not exist", idDoodle));
+            throw new BadRequestException(String.format("idDoodle=%s does not exist", idDoodle));
         }
 
         User user = userService.findByUsername(username);
         if (!doodle.get().getOrganizer().equals(user)) {
-            throw new ResourceForbiddenException("You are not the organizer of idDoodle=" + idDoodle);
+            throw new ForbiddenException("You are not the organizer of idDoodle=" + idDoodle);
         }
 
         doodleService.delete(doodle.get());

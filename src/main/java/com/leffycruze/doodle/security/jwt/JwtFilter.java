@@ -1,24 +1,27 @@
 package com.leffycruze.doodle.security.jwt;
 
+import com.leffycruze.doodle.exception.ErrorResponse;
+import com.leffycruze.doodle.exception.apirequestexception.BadRequestException;
 import com.leffycruze.doodle.security.DoodleUserDetails;
 import com.leffycruze.doodle.security.DoodleUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.ZonedDateTime;
 
 import static org.springframework.util.StringUtils.hasText;
 
 @Component
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION = "Authorization";
 
@@ -26,19 +29,28 @@ public class JwtFilter extends GenericFilterBean {
     private JwtProvider jwtProvider;
 
     @Autowired
-    private DoodleUserDetailsService doodleUserDetailsService;
+    private DoodleUserDetailsService myUserDetailsService;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = getTokenFromRequest((HttpServletRequest) servletRequest);
         if (token != null && jwtProvider.isTokenValid(token)) {
             String username = jwtProvider.getUsernameFromToken(token);
-            DoodleUserDetails doodleUserDetails = doodleUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(doodleUserDetails, null,
-                    doodleUserDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(auth);
-            servletRequest.setAttribute("username", username);
+            DoodleUserDetails doodleMyUserDetails = null;
+            try {
+                doodleMyUserDetails = myUserDetailsService.loadUserByUsername(username);
+
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(doodleMyUserDetails, null,
+                        doodleMyUserDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(auth);
+                servletRequest.setAttribute("username", username);
+            } catch (BadRequestException e) {
+                ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.FORBIDDEN, HttpStatus.FORBIDDEN.value(), ZonedDateTime.now());
+
+                servletResponse.setStatus(HttpStatus.FORBIDDEN.value());
+                servletResponse.getWriter().write(String.valueOf(errorResponse));
+            }
+
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }
@@ -50,4 +62,6 @@ public class JwtFilter extends GenericFilterBean {
         }
         return null;
     }
+
+
 }

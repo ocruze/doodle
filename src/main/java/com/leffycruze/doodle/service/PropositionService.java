@@ -17,23 +17,19 @@ public class PropositionService {
 
     public void voteGoing(Integer idProp, User user) {
         Proposition prop = propositionRepository.getOne(idProp);
+        prop.getNotGoing().remove(user);
         prop.getGoing().add(user);
     }
 
     public void voteNotGoing(Integer idProp, User user) {
         Proposition prop = propositionRepository.getOne(idProp);
+        prop.getGoing().remove(user);
         prop.getNotGoing().add(user);
-    }
-
-    public void voteMaybe(Integer idProp, User user) {
-        Proposition prop = propositionRepository.getOne(idProp);
-        prop.getMaybe().add(user);
     }
 
     public void voteDelete(Integer idProp, User user) {
         Proposition prop = propositionRepository.getOne(idProp);
         prop.getGoing().remove(user);
         prop.getNotGoing().remove(user);
-        prop.getMaybe().remove(user);
     }
 }

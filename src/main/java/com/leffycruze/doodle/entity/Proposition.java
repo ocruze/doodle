@@ -24,19 +24,14 @@ public class Proposition {
     private LocalTime finish;
 
     @Column(nullable = false)
-    @OneToMany(targetEntity = User.class)
+    @ManyToMany(targetEntity = User.class)
     @CollectionTable
     private Set<User> going = new HashSet<>();
 
     @Column(nullable = false)
-    @OneToMany(targetEntity = User.class)
+    @ManyToMany(targetEntity = User.class)
     @CollectionTable
     private Set<User> notGoing = new HashSet<>();
-
-    @Column(nullable = false)
-    @OneToMany(targetEntity = User.class)
-    @CollectionTable
-    private Set<User> maybe = new HashSet<>();
 
     public Proposition(LocalDate date, LocalTime start, LocalTime finish) {
         this.date = date;
@@ -56,6 +51,10 @@ public class Proposition {
     }
 
     public Proposition() {
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public LocalDate getDate() {
@@ -96,13 +95,5 @@ public class Proposition {
 
     public void setNotGoing(Set<User> notGoing) {
         this.notGoing = notGoing;
-    }
-
-    public Set<User> getMaybe() {
-        return maybe;
-    }
-
-    public void setMaybe(Set<User> maybe) {
-        this.maybe = maybe;
     }
 }

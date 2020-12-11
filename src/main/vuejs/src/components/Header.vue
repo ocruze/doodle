@@ -25,26 +25,21 @@
           </b-nav-item>
         </b-navbar-nav>
 
-        <b-navbar-nav class="ml-auto" v-if="authenticated">
+        <b-navbar-nav class="ml-auto">
           <b-nav-item>
-            <router-link to="/new_doodle">
-              New Doodle
-            </router-link>
+            <router-link to="/new-doodle"> New Doodle </router-link>
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item v-if="authenticated">
             <a @click.prevent="logout"
               >Logout <font-awesome-icon icon="sign-out-alt" />
             </a>
           </b-nav-item>
-        </b-navbar-nav>
-
-        <b-navbar-nav class="ml-auto" v-else>
-          <b-nav-item>
+          <b-nav-item v-if="!authenticated">
             <router-link to="/login"
               >Login <font-awesome-icon icon="sign-in-alt"
             /></router-link>
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item v-if="!authenticated">
             <router-link to="/register"
               >Register <font-awesome-icon icon="user-plus"
             /></router-link>

@@ -47,7 +47,9 @@ export default {
     submit() {
       this.register(this.form)
         .then(() => {
-          this.$toast.success("Registration successful");
+          this.$toast.success(
+            "Registration successful, please log in to continue"
+          );
           this.$router.replace({ name: "Login" });
         })
         .catch((error) => {

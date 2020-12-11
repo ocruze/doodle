@@ -17,18 +17,22 @@
             id="example-datepicker"
             v-model="dateValue"
             class="mb-2"
-            locale="fr"
           ></b-form-datepicker>
-          <p>Value: '{{ dateValue }}'</p>
         </div>
-        <b-form-timepicker v-model="startTime" locale="en"></b-form-timepicker>
+        <div class="mt-2">Value: '{{ dateValue }}'</div>
+        <b-form-timepicker v-model="startTime"></b-form-timepicker>
         <div class="mt-2">Value: '{{ startTime }}'</div>
-        <b-form-timepicker v-model="endTime" locale="en"></b-form-timepicker>
+        <b-form-timepicker v-model="endTime"></b-form-timepicker>
         <div class="mt-2">Value: '{{ endTime }}'</div>
       </b-modal>
 
-      <b-button v-b-modal.modal-1> Add proposition </b-button>
-      <b-button type="submit" @submit.prevent="submit" @click.prevent="submit">
+      <b-button variant="primary" v-b-modal.modal-1> Add proposition </b-button>
+      <b-button
+        variant="primary"
+        type="submit"
+        @submit.prevent="submit"
+        @click.prevent="submit"
+      >
         Save
       </b-button>
     </form>

@@ -1,7 +1,7 @@
 package com.leffycruze.doodle.controller.api;
 
 import com.leffycruze.doodle.entity.User;
-import com.leffycruze.doodle.exception.apirequestexception.BadParameterException;
+import com.leffycruze.doodle.exception.apirequestexception.BadRequestException;
 import com.leffycruze.doodle.service.DoodleService;
 import com.leffycruze.doodle.service.PropositionService;
 import com.leffycruze.doodle.service.UserService;
@@ -24,7 +24,7 @@ public class PropositionController {
     @Autowired
     private PropositionService propositionService;
 
-    @GetMapping("/{id}/vote/{going}") // yes, no
+    @PatchMapping("/{id}/vote/{going}") // yes, no
     public ResponseEntity<?> vote(@PathVariable(name = "id") String idPropSt,
             @PathVariable(name = "going") String going, HttpServletRequest httpRequest) {
         String username = (String) httpRequest.getAttribute("username");
@@ -35,11 +35,8 @@ public class PropositionController {
             propositionService.voteGoing(idProp, user);
         } else if (going.equals("no")) {
             propositionService.voteNotGoing(idProp, user);
-
-        } else if (going.equals("maybe")) {
-            propositionService.voteMaybe(idProp, user);
         } else {
-            throw new BadParameterException("Only [yes, no, maybe] values are accepted");
+            throw new BadRequestException("Only [yes, no] values are accepted");
         }
         return ResponseEntity.noContent().build();
     }

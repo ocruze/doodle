@@ -1,17 +1,17 @@
 package com.leffycruze.doodle.exception.apirequestexception;
 
-public class ApiRequestException extends RuntimeException {
+public class BadRequestException extends ApiRequestException {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    public ApiRequestException(String message) {
+    public BadRequestException(String message) {
         super(message);
     }
 
-    public ApiRequestException(String message, Throwable cause) {
+    public BadRequestException(String message, Throwable cause) {
         super(message, cause);
     }
 }

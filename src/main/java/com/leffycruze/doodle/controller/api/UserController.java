@@ -31,9 +31,9 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody Map<String, Object> request)
-            throws UsernameAlreadyTakenException, MissingParametersException {
+            throws BadRequestException {
         if (!request.containsKey("username") || !request.containsKey("password")) {
-            throw new MissingParametersException("Username and password must be provided");
+            throw new BadRequestException("Username and password must be provided");
         }
 
         String username = (String) request.get("username");
@@ -43,17 +43,17 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable(name = "id") String id) throws UserNotFoundException, BadParameterException {
+    public User getUser(@PathVariable(name = "id") String id) throws NotFoundException, BadRequestException {
         try {
             Integer idInt = Integer.parseInt(id);
             Optional<User> u = userService.findById(idInt);
             if (u.isEmpty())
-                throw new UserNotFoundException("User=" + id + " not found");
+                throw new NotFoundException("User=" + id + " not found");
 
             return u.get();
 
         } catch (NumberFormatException e) {
-            throw new BadParameterException("Invalid id");
+            throw new BadRequestException("Invalid id");
         }
     }
 
@@ -67,7 +67,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, Object> request)
-            throws UserNotFoundException, AuthenticationFailureException {
+            throws NotFoundException, ForbiddenException {
         String username = (String) request.get("username");
         String password = (String) request.get("password");
 
@@ -83,14 +83,14 @@ public class UserController {
             Integer idInt = Integer.parseInt(id);
             Optional<User> u = userService.findById(idInt);
             if (u.isEmpty())
-                throw new UserNotFoundException("User=" + id + " not found");
+                throw new NotFoundException("User=" + id + " not found");
 
             userService.delete(u.get());
 
             return ResponseEntity.noContent().build();
 
         } catch (NumberFormatException e) {
-            throw new BadParameterException("Invalid id");
+            throw new BadRequestException("Invalid id");
         }
     }
 
