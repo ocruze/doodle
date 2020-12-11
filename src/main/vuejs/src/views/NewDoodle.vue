@@ -66,6 +66,7 @@ export default {
         .post("/doodle/create", this.form)
         .then(() => {
           this.$toast.success("Creation successful!");
+          this.$router.replace({ name: "Dashboard" });
         })
         .catch((error) => {
           if (error.response) {

@@ -3,7 +3,11 @@
     <Header />
     <div class="container">
       <b-list-group>
-        <b-list-group-item v-for="doodle in doodles" :key="doodle.id">{{ doodle.title }}</b-list-group-item>
+        <b-list-group-item v-for="doodle in doodles" :key="doodle.id">
+          <router-link :to="`/doodle/${doodle.id}`">
+            <h5>{{ doodle.title }}</h5>
+          </router-link>
+        </b-list-group-item>
       </b-list-group>
     </div>
   </div>
@@ -26,15 +30,15 @@ export default {
   },
   computed: {},
   methods: {
-    loadData: function() {
+    loadData: function () {
       axios
         .get("/doodle/")
         .then((res) => {
           //this.$toast.success("Creation successful!");
           //response => (this.info = response)
-          this.doodles = res.data
-          console.log(res.data)
-          console.log('hello')
+          this.doodles = res.data;
+          console.log(res.data);
+          console.log("hello");
         })
         .catch((error) => {
           if (error.response) {
@@ -47,9 +51,9 @@ export default {
         });
     },
   },
-  beforeMount(){
-    this.loadData()
- },
+  beforeMount() {
+    this.loadData();
+  },
 };
 </script>
 
@@ -109,7 +113,6 @@ a {
   line-height: 25px;
   font-size: 16px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.671);
   text-decoration: none;
   display: block;
   margin-bottom: 10px;

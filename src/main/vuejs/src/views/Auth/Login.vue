@@ -15,7 +15,6 @@
         </b-button>
       </form>
 
-      <router-link to="/recover">Forgot your password?</router-link>
       <router-link to="/register"
         >Don't have an account? Register here</router-link
       >

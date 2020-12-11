@@ -2,11 +2,9 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Dashboard from "../views/Dashboard.vue";
-import About from "../views/About.vue";
 import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
 import NewDoodle from "../views/NewDoodle.vue";
-import Recover from "../views/Auth/Recover.vue";
 import DoodlePage from "../views/DoodlePage.vue";
 import store from "@/store";
 import NotFound from "@/views/NotFound.vue";
@@ -25,11 +23,6 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: "/about",
-    name: "About",
-    component: About,
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
@@ -38,11 +31,6 @@ const routes = [
     path: "/register",
     name: "Register",
     component: Register,
-  },
-  {
-    path: "/recover",
-    name: "Recover",
-    component: Recover,
   },
   {
     path: "/new-doodle",
