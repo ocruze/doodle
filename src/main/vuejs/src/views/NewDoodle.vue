@@ -7,7 +7,7 @@
       <input type="text" placeholder="Place" v-model="form.place" />
 
       <b-modal
-        id="modal-1"
+        id="modal-new-prop"
         title="Add new date proposition"
         @ok="addProposition"
       >
@@ -26,7 +26,9 @@
         <div class="mt-2">Value: '{{ endTime }}'</div>
       </b-modal>
 
-      <b-button variant="primary" v-b-modal.modal-1> Add proposition </b-button>
+      <b-button variant="primary" v-b-modal.modal-new-prop>
+        Add proposition
+      </b-button>
       <b-button
         variant="primary"
         type="submit"
@@ -61,7 +63,6 @@ export default {
   computed: {},
   methods: {
     submit() {
-      console.log(this.form);
       axios
         .post("/doodle/create", this.form)
         .then(() => {

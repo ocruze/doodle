@@ -2,7 +2,7 @@
   <div class="dashboard">
     <Header />
     <div class="container">
-      <b-list-group>
+      <b-list-group class="row col-10">
         <b-list-group-item v-for="doodle in doodles" :key="doodle.id">
           <router-link :to="`/doodle/${doodle.id}`">
             <h5>{{ doodle.title }}</h5>
@@ -34,11 +34,7 @@ export default {
       axios
         .get("/doodle/")
         .then((res) => {
-          //this.$toast.success("Creation successful!");
-          //response => (this.info = response)
           this.doodles = res.data;
-          console.log(res.data);
-          console.log("hello");
         })
         .catch((error) => {
           if (error.response) {
@@ -116,6 +112,10 @@ a {
   text-decoration: none;
   display: block;
   margin-bottom: 10px;
+}
+
+.list {
+  justify-content: left;
 }
 </style>
 

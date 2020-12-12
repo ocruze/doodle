@@ -26,7 +26,7 @@
           striped
           hover
           bordered
-          sticky-header
+          sticky-header="60vh"
           head-variant="dark"
           :fields="fields"
           :items="doodle.propositions"
@@ -107,9 +107,7 @@ export default {
     async vote(idProp, going) {
       await axios
         .patch("/prop/" + idProp + "/vote/" + going)
-        .then(() => {
-          this.$toast.success("success");
-        })
+        .then(() => {})
         .catch((error) => {
           if (error.response) {
             this.$toast.error(error.response.data.message);

@@ -9,6 +9,8 @@ Un site web permettant de créer et voter sur des sondages, aussi appelé "Doodl
 
 Le site web utilise une API développée en Java (spring-boot) afin de communiquer avec la base de données.
 
+> Documentation de l'API https://doodle-api.netlify.app/
+
 ## Site web
 
 Le site web lui-même est développé en JavaScript (Vue.js).
@@ -50,3 +52,11 @@ Voici les fichiers de configuration à modifier pour les services concernés :
   * se déplacer dans le dossier de vuejs : `cd src/main/vuejs`
   * installer les dépendances JavaScript : `npm install`
   * lancer le serveur : `npm run serve`
+
+# Equipe de développement
+
+* Léo LEFFY
+* Sory DIARRA
+* Orka Arnest CRUZE
+
+Classe 4A-UFA-41
